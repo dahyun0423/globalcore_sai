@@ -1,26 +1,217 @@
 @import "tailwindcss";
 
+/* ============================================================
+   디자인 토큰 — 사이 (grey / coral / blue / red)
+   메인 색은 로고와 같은 코랄 #FF4F37. 파랑은 지도·데이터 의미 색(학원 칸, 그린 경로, 내 위치)으로만 쓴다.
+   색을 직접 쓰지 말고 항상 아래 semantic 이름으로 쓴다.
+   ============================================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* grey */
+  --grey-50: #f9fafb;
+  --grey-100: #f3f4f6;
+  --grey-200: #e5e8eb;
+  --grey-300: #d1d6db;
+  --grey-400: #b0b8c1;
+  --grey-500: #8b95a1;
+  --grey-600: #6b7684;
+  --grey-700: #4e5968;
+  --grey-800: #333d4b;
+  --grey-900: #191f28;
+  /* coral — 사이 메인 색 */
+  --coral-50: #ffebe9;
+  --coral-100: #ffd3cc;
+  --coral-200: #fea48d;
+  --coral-300: #ff8a73;
+  --coral-400: #ff6b55;
+  --coral-500: #ff4f37;
+  --coral-600: #eb3f28;
+  --coral-700: #d1331e;
+  /* blue */
+  --blue-50: #e8f3ff;
+  --blue-100: #c9e2ff;
+  --blue-200: #90c2ff;
+  --blue-300: #64a8ff;
+  --blue-400: #4593fc;
+  --blue-500: #3182f6;
+  --blue-600: #2272eb;
+  --blue-700: #1b64da;
+  --blue-800: #1957c2;
+  --blue-900: #194aa6;
+  /* red */
+  --red-50: #ffeeee;
+  --red-100: #ffd4d6;
+  --red-200: #feafb4;
+  --red-300: #fb8890;
+  --red-400: #f66570;
+  --red-500: #f04452;
+  --red-600: #e42939;
+  --red-700: #d22030;
+  --red-800: #bc1b2a;
+  --red-900: #a51926;
+
+  /* semantic — 앱에서 쓰는 이름 */
+  --bg: var(--grey-50);
+  --card: #ffffff;
+  --surface-2: var(--grey-50);
+  --surface-hover: var(--grey-100);
+  --line: var(--grey-200);
+  --line-strong: var(--grey-300);
+  --ink: var(--grey-900);
+  --ink-2: var(--grey-700);
+  --ink-3: var(--grey-500);
+  --ink-4: var(--grey-400);
+  --accent: var(--coral-500);
+  --accent-hover: var(--coral-600);
+  --accent-soft: var(--coral-50);
+  --accent-line: var(--coral-100);
+  --danger: var(--red-500);
+  --danger-soft: var(--red-50);
+  --danger-line: var(--red-100);
+
+  /* 모양 */
+  --radius: 24px;
+  --radius-sm: 12px;
+  --radius-xs: 8px;
+  --shadow-sm: 0 1px 2px rgba(25, 31, 40, 0.04), 0 1px 3px rgba(25, 31, 40, 0.06);
+  --shadow: 0 4px 20px rgba(25, 31, 40, 0.06);
+  --shadow-lg: 0 10px 40px rgba(25, 31, 40, 0.12);
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  /* 하단 메뉴바 전체 높이 (동그라미 여유 34 + 흰 바 62 + 아래 여백 20 + 홈 바). 지도 위 요소를 이만큼 올린다 */
+  --tabbar-h: calc(116px + var(--safe-bottom));
+  /* 지도 로고·축척을 올릴 높이: 메뉴바 + 아래 '여기 기록' 카드 위 */
+  --map-chrome-bottom: calc(var(--tabbar-h) + 124px);
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-surface-2: var(--surface-2);
+  --color-surface-hover: var(--surface-hover);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-4: var(--ink-4);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-line: var(--accent-line);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-line: var(--danger-line);
+
+  /* 원색 스케일도 그대로 열어둔다 (bg-blue-50, text-grey-600 …) */
+  --color-grey-50: var(--grey-50);
+  --color-grey-100: var(--grey-100);
+  --color-grey-200: var(--grey-200);
+  --color-grey-300: var(--grey-300);
+  --color-grey-400: var(--grey-400);
+  --color-grey-500: var(--grey-500);
+  --color-grey-600: var(--grey-600);
+  --color-grey-700: var(--grey-700);
+  --color-grey-800: var(--grey-800);
+  --color-grey-900: var(--grey-900);
+  --color-blue-50: var(--blue-50);
+  --color-blue-100: var(--blue-100);
+  --color-blue-200: var(--blue-200);
+  --color-blue-300: var(--blue-300);
+  --color-blue-400: var(--blue-400);
+  --color-blue-500: var(--blue-500);
+  --color-blue-600: var(--blue-600);
+  --color-blue-700: var(--blue-700);
+  --color-red-50: var(--red-50);
+  --color-red-100: var(--red-100);
+  --color-red-500: var(--red-500);
+  --color-red-600: var(--red-600);
+  --color-red-700: var(--red-700);
+
+  /* rounded-card / rounded-field / rounded-chip */
+  --radius-card: var(--radius);
+  --radius-field: var(--radius-sm);
+  --radius-chip: var(--radius-xs);
+
+  --shadow-card: var(--shadow-sm);
+  --shadow-float: var(--shadow);
+  --shadow-pop: var(--shadow-lg);
+
+  --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+  letter-spacing: -0.01em;
+}
+
+/* 제목은 조금 더 조인다 */
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+}
+
+/* iOS는 16px 미만 입력창에서 자동 확대되므로 최소 16px */
+input,
+textarea,
+select {
+  font-size: 16px;
+  font-family: inherit;
+}
+
+/* 파란 포커스 링 — 지금 어디에 쓰고 있는지 항상 보이게 */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-line);
+}
+
+::placeholder {
+  color: var(--grey-400);
+}
+
+/* 숫자 입력 스피너 제거 */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+.pt-safe {
+  padding-top: calc(var(--safe-top) + 8px);
+}
+.pb-safe {
+  padding-bottom: calc(var(--safe-bottom) + 8px);
+}
+
+/* 한글은 낱말 안에서도 줄이 끊긴다 — 안내 문구엔 이걸 쓴다 */
+.keep-all {
+  word-break: keep-all;
+}
+
+.leaflet-container {
+  font-family: var(--font-sans);
+}
+
+/* 지도가 메뉴바 뒤까지 이어지므로 OSM 저작권 표시는 메뉴바 위로 올린다 (카카오·구글은 maps/index.ts에서) */
+.leaflet-bottom {
+  bottom: var(--map-chrome-bottom);
 }
